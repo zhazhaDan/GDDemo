@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport">
+<body style="background-color: white;">
+    <script type="text/javascript">
+        function jsCallNative() {
+           window.webkit.messageHandlers.callNativeAndSend.postMessage({
+               'method': 'test:',
+               'parameter': ''
+           });
+           alert(callNative);
+        }
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'https://__bridge_loaded__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+    }
+    setupWebViewJavascriptBridge(function(bridge) {
+        var uniqueId = 1
+        function log(message, data) {
+            var log = document.getElementById('log')
+            var el = document.createElement('div')
+            el.className = 'logLine'
+            el.innerHTML = uniqueId++ + '. ' + message + ':<br/>' + JSON.stringify(data)
+            if (log.children.length) { log.insertBefore(el, log.children[0]) }
+            else { log.appendChild(el) }
+        }
+
+        bridge.registerHandler('testJavascriptHandler', function(data, responseCallback) {
+            log('ObjC called testJavascriptHandler with', data)
+            var responseData = { 'Javascript Says':'Right back atcha!' }
+            log('JS responding with', responseData)
+            responseCallback(responseData)
+        })
+        document.body.appendChild(document.createElement('br'))
+
+        var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
+        callbackButton.innerHTML = 'Fire testCallHandler'
+        callbackButton.onclick = function(e) {
+            e.preventDefault()
+            log('JS calling handler "testCallHandler"')
+            bridge.callHandler('testCallHandler', {'foo': 'bar'}, function(response) {
+                log('JS got response', response)
+            })
+        }
+        var callbackButton = document.getElementById('buttons').appendChild(document.createElement('button'))
+        callbackButton.innerHTML = 'testCallHandler2222'
+        callbackButton.onclick = function(e) {
+            e.preventDefault()
+            log('JS calling handler "testCallHandler2222"')
+            bridge.callHandler('testCallHandler2222', {'foo': 'bar'}, function(response) {
+                log('JS got response', response)
+            })
+        }
+    })
+    </script>
+
+    <div id='buttons'>
+        <button type="button" onclick = "jsCallNative()" style="width:100%; height:30px;"/>调用iOS代码</button>
+    </div>
+
+    <div id='log'></div>
+
+<!--    <button type="button2" onclick = "jsCallNative()" style="width:100%; height:30px;"/>调用JSBridge代码</button>-->
+</body>
+</html>

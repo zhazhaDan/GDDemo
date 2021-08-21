@@ -1,0 +1,172 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    #method, #params, #callback {
+      display: block;
+      margin: 10px;
+    }
+    #params {
+      width: 80%;
+      height: 100px;
+    }
+    input, button {
+      padding: 8px 10px;
+    }
+  </style>
+</head>
+<body>
+  <!--
+    1. 获取用户基本信息(vip各个状态)
+    2. 获取会员套餐数据
+    3. 获取本地化数据
+    4. 支付 + callback
+    ProxyWeb4App(method_name/method_params)/method_response
+
+    ListIapProducts(IapProductInfo)
+    SubmitIapPurchase(提交内购申请)
+    IsIapAvailable(内购是否可用)
+    SubmitDirectPreOrder(直付预下单)
+    CheckDirectOrder(检查直付订单状态)
+
+    1. proxy -> userInfo + ListIapProducts
+    2. ListIapProducts 需要的参数 -> 渠道等
+    3. 本地化数据
+    4. 支付
+  -->
+  <input placeholder="方法名" name="method" id="method">
+  <textarea id="params" placeholder="参数."></textarea>
+  <input id="callback" name="callback" placeholder="回调 id, 默认会自动生成">
+  <button id="demo">api call</button>
+
+  <div id="result" style="margin-top: 16px"></div>
+
+  <hr>
+
+  <button data-method="proxy">调用 __transmissionProxy(getUserInfo)</button>
+
+  <button data-method="ListIapProducts">调用 __transmissionProxy(ListIapProducts)</button>
+
+  <button data-method="toast">调用 __toast </button>
+
+  <button data-method="getIAPChannel">调用 getIAPChannel 接口</button>
+
+  <button data-method="managerIAPAutoRenew">调用 managerIAPAutoRenew 接口</button>
+
+
+  <script>  function uuid() {
+    return ('xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx').replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function runAndroidMethodSuccess(id,data) {
+    alert(`callback.resolved. id = ${ id }, data = ${ JSON.stringify(data) }`)
+    window['resolve_'+id](JSON.stringify(data))
+  }
+
+  function runAndroidMethodFail(id,data) {
+    window['reject_'+id](JSON.stringify(data))
+  }
+
+  function bridge(method) {
+    const id = '_' + uuid();
+    return new Promise((resolve, reject) => {
+      let timer = setTimeout(function () {
+        reject(new Error('timeout'))
+      }, 10000);
+      window["resolve_" + id] = (data) => {
+        clearTimeout(timer);
+        resolve(JSON.parse(data));
+      };
+      window["reject_" + id] = (error) => {
+        clearTimeout(timer);
+        reject(new Error(error));
+      };
+      window[id] = function (data) {
+        resolve(data)
+      }
+      console.log('callback ref:', id)
+      let args = Array.prototype.slice.call(arguments, 1)
+      let artpro = window.artpro || (window.webkit && window.webkit.messageHandlers.artpro)
+      if (artpro && artpro.postMessage) {
+        artpro.postMessage({
+          method,
+          parameter: args,
+          callback: id,
+        });
+      } else if (artpro) {
+        artpro[method].apply(artpro, [...args, id])
+      } else {
+        console.log('...', method, args, id)
+      }
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    let target = e.target
+    let meta = target.dataset
+    let method = meta.method
+    let data = ''
+    if (method === 'proxy') {
+      data = {
+        method_name: 'GetUserInfo',
+        method_params: '',
+      }
+      return bridge('__transmissionProxy', data).then(res => {
+      	console.log(res)
+      })
+    }
+
+    if (method === 'toast') {
+      return bridge('__toast:', 'Hello world')
+    }
+
+    if (method === 'getIAPChannel') {
+      return bridge('getIAPChannel').then(res => {
+        console.log(res)
+      })
+    }
+
+    if (method === 'managerIAPAutoRenew') {
+      return bridge('managerIAPAutoRenew').then(res => {
+        alert(res)
+      })
+    }
+
+    if (method === 'ListIapProducts') {
+      // __transmissionProxy
+      let data = {
+        'iap_channel': 0, // 端上给什么就用什么...
+        'pay_channel': 0, // 0: IAP商店  1: 直付
+      }
+      bridge('getIAPChannel::').then(res => {
+        console.log(res)
+      })
+    }
+  })
+
+  document.getElementById('demo').addEventListener('click', function (e) {
+    let method = document.getElementById('method')
+    let params = document.getElementById('params')
+    let callback = document.getElementById('callback')
+    let data = {}
+    if (params.value) {
+      try {
+        data = JSON.parse(params.value)
+      } catch (e) {
+        alert(e.message)
+      }
+    }
+    bridge(method.value, data, callback.value).then(function (res) {
+      let string = (JSON.stringify(res))
+      document.getElementById('result').innerText = string
+    }, function (error) {
+      document.getElementById('result').innerText = error.message
+    })
+  })</script>
+
+
+</body></html>
