@@ -264,6 +264,15 @@
 			path = socketManager;
 			sourceTree = "<group>";
 		};
+		6A11B02826D153750044B519 /* BarrierSafeArrayOC */ = {
+			isa = PBXGroup;
+			children = (
+				6A11B01F26CEB5B60044B519 /* GCDBarrierSafeArray.h */,
+				6A11B02026CEB5B60044B519 /* GCDBarrierSafeArray.m */,
+			);
+			path = BarrierSafeArrayOC;
+			sourceTree = "<group>";
+		};
 		6A1E854B24AEF01900C249C3 /* Downloader */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,9 +496,8 @@
 			isa = PBXGroup;
 			children = (
 				6ACBD8C226BFC243002CF807 /* ShineLabel */,
+				6A11B02826D153750044B519 /* BarrierSafeArrayOC */,
 				6ACBD8C026BFBFFE002CF807 /* OtherViewController.swift */,
-				6A11B01F26CEB5B60044B519 /* GCDBarrierSafeArray.h */,
-				6A11B02026CEB5B60044B519 /* GCDBarrierSafeArray.m */,
 				6A11B01E26CEB5B60044B519 /* GDDemo-Bridging-Header.h */,
 				6A11B02226CEC4D80044B519 /* SafeTestViewController.swift */,
 				6A11B02426CEC6810044B519 /* OCTestViewController.h */,
