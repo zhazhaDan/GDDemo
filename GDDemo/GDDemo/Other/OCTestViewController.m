@@ -8,6 +8,7 @@
 
 #import "OCTestViewController.h"
 #import "GCDBarrierSafeArray.h"
+#import "CustomOperation.h"
 
 @interface OCTestViewController ()
 
@@ -17,14 +18,166 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"2");
 
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        NSLog(@"串行队列中的同步任务");
-    });
 
-    NSLog(@"2");
+    NSMutableArray * array = [NSMutableArray array];
 
+
+    CustomOperation * custom = [[CustomOperation alloc] init];
+
+//    [operation start];
+
+    NSBlockOperation * block = [[NSBlockOperation alloc] init];
+
+    [block addExecutionBlock:^{ //可能开启新线程
+        for (int i = 0; i < 2; i++) {
+            [array addObject:@(i+10)];
+            NSLog(@"NSBlockOperation %d, at thread %@", i+10, [NSThread currentThread]);
+        }
+    }];
+    [block addExecutionBlock:^{
+        for (int i = 0; i < 9; i++) {
+            [array addObject:@(i+20)];
+            NSLog(@"NSBlockOperation %d, at thread %@", i+20, [NSThread currentThread]);
+        }
+
+    }];
+
+
+    [block addExecutionBlock:^{
+        for (int i = 0; i < 9; i++) {
+            [array addObject:@(i+30)];
+            NSLog(@"NSBlockOperation %d, at thread %@", i+30, [NSThread currentThread]);
+        }
+
+    }];
+    [block addExecutionBlock:^{
+        for (int i = 0; i < 9; i++) {
+            [array addObject:@(i+40)];
+            NSLog(@"NSBlockOperation %d, at thread %@", i+40, [NSThread currentThread]);
+        }
+
+    }];
+
+    [block setCompletionBlock:^{ //所有的block结束后执行 可能开启子线程
+        NSLog(@"NSBlockOperation complete at thread %@", [NSThread currentThread]);
+    }];
+
+
+    NSInvocationOperation * invocat = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(test) object:nil];
+    [invocat setCompletionBlock:^{
+        NSLog(@"NSInvocationOperation complete at thread %@", [NSThread currentThread]);
+
+    }];
+
+//    [invocat start];
+//    [operation start];
+
+    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+//    [queue setMaxConcurrentOperationCount:2];
+//    [operation addDependency:invocat];
+//    [custom addDependency:block];
+//    [custom addDependency:invocat];
+    [queue addOperation:block];
+    [queue addOperation:invocat];
+    [queue addOperation:custom];
+    [block setQueuePriority:NSOperationQueuePriorityLow];
+    [invocat setQueuePriority:NSOperationQueuePriorityHigh];
+
+    [queue addOperationWithBlock:^{
+        for (int i = 0; i < 9; i++) {
+            [array addObject:@(i+50)];
+            NSLog(@"NSOperationQueue add block %d, at thread %@", i+50, [NSThread currentThread]);
+        }
+    }];
+
+    [queue addBarrierBlock:^{
+        NSLog(@"%ld, %@", array.count, array);
+    }];
+//    dispatch_queue_t queue = dispatch_queue_create("test", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(queue, ^{
+//        NSLog(@"dispatch_async thread %@", [NSThread currentThread]);
+//        [self performSelector:@selector(test) withObject:nil afterDelay:2];
+//    });
+//
+//    NSLog(@"dispatch_async end thread %@", [NSThread currentThread]);
+//
+//    NSLog(@"current thread %@", [NSThread currentThread]);
+//
+//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+//
+//    dispatch_async(queue, ^{
+//        NSLog(@"dispatch_async %@", [NSThread currentThread]);
+//        dispatch_semaphore_signal(semaphore);
+//    });
+//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"dispatch_semaphore_wait %@", [NSThread currentThread]);
+//
+//
+//    dispatch_async(queue, ^{
+//        NSLog(@"dispatch_async1 %@", [NSThread currentThread]);
+//        dispatch_semaphore_signal(semaphore);
+//    });
+//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"dispatch_semaphore_wait1 %@", [NSThread currentThread]);
+//
+//
+//    dispatch_async(queue, ^{
+//        NSLog(@"dispatch_async2 %@", [NSThread currentThread]);
+//        dispatch_semaphore_signal(semaphore);
+//    });
+//
+//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"dispatch_semaphore_wait2 %@", [NSThread currentThread]);
+
+
+//    CFAbsoluteTime currentTime0 = CFAbsoluteTimeGetCurrent();
+//    for (int i ; i < 10000; i++) { }
+//    CFAbsoluteTime totalTime0 = CFAbsoluteTimeGetCurrent() - currentTime0;
+//    NSLog(@"for loop total time is %f", totalTime0);
+//
+//    CFAbsoluteTime currentTime1 = CFAbsoluteTimeGetCurrent();
+//    dispatch_apply(10000, queue, ^(size_t index) {
+//
+//    });
+//    CFAbsoluteTime totalTime1 = CFAbsoluteTimeGetCurrent() - currentTime1;
+//    NSLog(@"dispatch_apply total time is %f", totalTime1);
+//
+//    CFAbsoluteTime currentTime2 = CFAbsoluteTimeGetCurrent();
+//    dispatch_sync(queue, ^{
+//        for (int i ; i < 10000; i++) { }
+//    });
+//    CFAbsoluteTime totalTime2 = CFAbsoluteTimeGetCurrent() - currentTime2;
+//    NSLog(@"dispatch_sync total time is %f", totalTime2);
+
+//    dispatch_once_t one;
+//    dispatch_once(&one, ^{
+//        NSLog(@"1 at thread %@", [NSThread currentThread]);
+//    });
+//    dispatch_queue_t queue = dispatch_queue_create("test", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_async(queue, ^{
+////        dispatch_once_t one;
+//        NSLog(@"dispatch_async at thread %@", [NSThread currentThread]);
+//        dispatch_once(&one, ^{
+//            NSLog(@"2 at thread %@", [NSThread currentThread]);
+//        });
+//    });
+
+
+//    NSLog(@"1");
+
+//    dispatch_queue_t queue = dispatch_queue_create("test", DISPATCH_QUEUE_CONCURRENT);
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC), queue, ^{
+//        NSLog(@"dispatch_after current thread %@", [NSThread currentThread]);
+//    });
+//
+//    dispatch_async(queue, ^{
+//        NSLog(@"dispatch_async at thread %@", [NSThread currentThread]);
+//    });
+//
+//    dispatch_sync(queue, ^{
+//        NSLog(@"dispatch_sync at thread %@", [NSThread currentThread]);
+//    });
 
 //    dispatch_queue_t queue = dispatch_queue_create("test", DISPATCH_QUEUE_CONCURRENT);
 //    __block int a = 5;
@@ -95,5 +248,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)test {
+    NSLog(@"test at thread %@", [NSThread currentThread]);
+    for (int i = 0; i < 10; i++) {
+        NSLog(@"NSInvocationOperation %d, at thread %@", i + 100, [NSThread currentThread]);
+    }
+}
 
 @end

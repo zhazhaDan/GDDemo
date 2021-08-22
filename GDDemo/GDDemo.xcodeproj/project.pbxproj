@@ -24,6 +24,7 @@
 		6A11B02126CEB5B60044B519 /* GCDBarrierSafeArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A11B02026CEB5B60044B519 /* GCDBarrierSafeArray.m */; };
 		6A11B02326CEC4D80044B519 /* SafeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A11B02226CEC4D80044B519 /* SafeTestViewController.swift */; };
 		6A11B02626CEC6810044B519 /* OCTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A11B02526CEC6810044B519 /* OCTestViewController.m */; };
+		6A11B02C26D266F40044B519 /* CustomOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A11B02B26D266F40044B519 /* CustomOperation.m */; };
 		6A1E854D24AEF03300C249C3 /* DownloaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E854C24AEF03300C249C3 /* DownloaderViewController.swift */; };
 		6A1E854F24AEF38C00C249C3 /* FileDownloadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E854E24AEF38C00C249C3 /* FileDownloadOperation.swift */; };
 		6A1E855124B0754400C249C3 /* FileDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1E855024B0754400C249C3 /* FileDownloader.swift */; };
@@ -107,6 +108,8 @@
 		6A11B02226CEC4D80044B519 /* SafeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeTestViewController.swift; sourceTree = "<group>"; };
 		6A11B02426CEC6810044B519 /* OCTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCTestViewController.h; sourceTree = "<group>"; };
 		6A11B02526CEC6810044B519 /* OCTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCTestViewController.m; sourceTree = "<group>"; };
+		6A11B02A26D266F40044B519 /* CustomOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomOperation.h; sourceTree = "<group>"; };
+		6A11B02B26D266F40044B519 /* CustomOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomOperation.m; sourceTree = "<group>"; };
 		6A1E854C24AEF03300C249C3 /* DownloaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloaderViewController.swift; sourceTree = "<group>"; };
 		6A1E854E24AEF38C00C249C3 /* FileDownloadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloadOperation.swift; sourceTree = "<group>"; };
 		6A1E855024B0754400C249C3 /* FileDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDownloader.swift; sourceTree = "<group>"; };
@@ -271,6 +274,15 @@
 				6A11B02026CEB5B60044B519 /* GCDBarrierSafeArray.m */,
 			);
 			path = BarrierSafeArrayOC;
+			sourceTree = "<group>";
+		};
+		6A11B02926D266C20044B519 /* CustomOperation */ = {
+			isa = PBXGroup;
+			children = (
+				6A11B02A26D266F40044B519 /* CustomOperation.h */,
+				6A11B02B26D266F40044B519 /* CustomOperation.m */,
+			);
+			path = CustomOperation;
 			sourceTree = "<group>";
 		};
 		6A1E854B24AEF01900C249C3 /* Downloader */ = {
@@ -495,6 +507,7 @@
 		6ACBD8BF26BFBFE8002CF807 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				6A11B02926D266C20044B519 /* CustomOperation */,
 				6ACBD8C226BFC243002CF807 /* ShineLabel */,
 				6A11B02826D153750044B519 /* BarrierSafeArrayOC */,
 				6ACBD8C026BFBFFE002CF807 /* OtherViewController.swift */,
@@ -729,6 +742,7 @@
 				6AA5E32B2549742D001D4DB6 /* LinkageContainerView.swift in Sources */,
 				6AAC707125774FBE0036417C /* WebViewController.swift in Sources */,
 				6A0F68B5256537FC008C73EB /* PropertyWrapperVC.swift in Sources */,
+				6A11B02C26D266F40044B519 /* CustomOperation.m in Sources */,
 				6AB35B51223A9C7100F0798C /* BarChartViewController.swift in Sources */,
 				3A2D64F42292FFA500B1DAD5 /* DateCountViewController.swift in Sources */,
 				6ACE13D526959F4D003CDFB3 /* CollectionViewLayoutStyle1.swift in Sources */,
