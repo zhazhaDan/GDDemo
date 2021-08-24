@@ -59,7 +59,7 @@ static forceInline void GD_setter(id self, SEL _cmd, id newValue) {
         NSMutableArray * observers = objc_getAssociatedObject(self, (__bridge const void * _Nonnull)(kSafeKVOAssiociateObservers));
         for (GDSafeObserveModel * model in observers) {
             if ([model.keyPath containsString:propertyName]) {
-                model.oldValue = [model.observed valueForKey:model.keyPath];
+                model.oldValue = [model.observed valueForKeyPath:model.keyPath];
             }
         }
         //调用父类的set 访问器
@@ -74,7 +74,7 @@ static forceInline void GD_setter(id self, SEL _cmd, id newValue) {
             //观察者未释放
             if ([model.keyPath containsString:propertyName] && model.observer) {
                 // 不能直接用newValue，因为可能有计算 通过KVC获取
-                model.valueChange(model.observed, propertyName, model.oldValue, [model.observed valueForKey:model.keyPath]);
+                model.valueChange(model.observed, propertyName, model.oldValue, [model.observed valueForKeyPath:model.keyPath]);
                 model.oldValue = nil;
             }
         }
@@ -146,7 +146,7 @@ static forceInline BOOL objectHasSelector(id object, SEL selector) {
             Method setterMethod = class_getInstanceMethod([object class], setterSelector);
             NSParameterAssert((setterMethod));
             if (!setterMethod) {
-                return;;
+                return;
             }
             id nextObject = [object valueForKey:keys[index]];
             Class observedClass = object_getClass(object);

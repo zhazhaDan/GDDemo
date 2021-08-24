@@ -86,6 +86,7 @@
 		6AFED6B72494B33B002BB8EF /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AFED6B62494B33B002BB8EF /* AudioViewController.swift */; };
 		A224EA1D26D4A65D0001DF20 /* NSObject+SafeKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = A224EA1A26D4A65D0001DF20 /* NSObject+SafeKVO.m */; };
 		A224EA1F26D4A7720001DF20 /* GDSafeObserveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A224EA1E26D4A7720001DF20 /* GDSafeObserveModel.m */; };
+		A224EA2326D4E5100001DF20 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = A224EA2226D4E5100001DF20 /* Person.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -177,6 +178,8 @@
 		A224EA1B26D4A65D0001DF20 /* GDSafeObserveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDSafeObserveModel.h; sourceTree = "<group>"; };
 		A224EA1C26D4A65D0001DF20 /* NSObject+SafeKVO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SafeKVO.h"; sourceTree = "<group>"; };
 		A224EA1E26D4A7720001DF20 /* GDSafeObserveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDSafeObserveModel.m; sourceTree = "<group>"; };
+		A224EA2126D4E5100001DF20 /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		A224EA2226D4E5100001DF20 /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		C3B8475EB09DF6E8F21E17B2 /* Pods_GDDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GDDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -513,6 +516,7 @@
 		6ACBD8BF26BFBFE8002CF807 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				A224EA2026D4E5020001DF20 /* Demo */,
 				A224EA1926D4A65D0001DF20 /* KVO */,
 				6A11B02926D266C20044B519 /* CustomOperation */,
 				6ACBD8C226BFC243002CF807 /* ShineLabel */,
@@ -572,6 +576,15 @@
 				A224EA1A26D4A65D0001DF20 /* NSObject+SafeKVO.m */,
 			);
 			path = KVO;
+			sourceTree = "<group>";
+		};
+		A224EA2026D4E5020001DF20 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				A224EA2126D4E5100001DF20 /* Person.h */,
+				A224EA2226D4E5100001DF20 /* Person.m */,
+			);
+			path = Demo;
 			sourceTree = "<group>";
 		};
 		DBEB84C5966E501896F887E4 /* Pods */ = {
@@ -747,6 +760,7 @@
 				6ACC51E4223F572100694E2F /* THChartHighlightShowView.swift in Sources */,
 				6A1E854D24AEF03300C249C3 /* DownloaderViewController.swift in Sources */,
 				6ACC51E2223F4EBF00694E2F /* THChartHighLightView.swift in Sources */,
+				A224EA2326D4E5100001DF20 /* Person.m in Sources */,
 				6A1E856024B0E35B00C249C3 /* FileDownloadManager.swift in Sources */,
 				6AAC70862578DC390036417C /* VideoVC.swift in Sources */,
 				6A25737F25492086007AFF7F /* LinkageContentProtocol.swift in Sources */,

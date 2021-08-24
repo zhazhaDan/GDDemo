@@ -9,6 +9,8 @@
 #import "OCTestViewController.h"
 #import "GCDBarrierSafeArray.h"
 #import "CustomOperation.h"
+#import "Person.h"
+#import "NSObject+SafeKVO.h"
 
 @interface OCTestViewController ()
 
@@ -16,84 +18,116 @@
 
 @implementation OCTestViewController
 
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    NSLog(@"keypath is %@, value is %@", keyPath, change);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
+    Person * person = [[Person alloc] init];
+    [person scores];
+//    [person setStudent:[Person new]];
+//    [person GD_addObserver:self forKeyPath:@"student.name" observeValueChanged:^(id object, NSString *keyPath, id oldValue, id newValue) {
+//        NSLog(@"%@'s keypath: %@ value changed old value is %@, new value is %@", object, keyPath, oldValue, newValue);
+//    }];
+//
 
-    NSMutableArray * array = [NSMutableArray array];
-
-
-    CustomOperation * custom = [[CustomOperation alloc] init];
-
-//    [operation start];
-
-    NSBlockOperation * block = [[NSBlockOperation alloc] init];
-
-    [block addExecutionBlock:^{ //可能开启新线程
-        for (int i = 0; i < 2; i++) {
-            [array addObject:@(i+10)];
-            NSLog(@"NSBlockOperation %d, at thread %@", i+10, [NSThread currentThread]);
-        }
-    }];
-    [block addExecutionBlock:^{
-        for (int i = 0; i < 9; i++) {
-            [array addObject:@(i+20)];
-            NSLog(@"NSBlockOperation %d, at thread %@", i+20, [NSThread currentThread]);
-        }
-
-    }];
-
-
-    [block addExecutionBlock:^{
-        for (int i = 0; i < 9; i++) {
-            [array addObject:@(i+30)];
-            NSLog(@"NSBlockOperation %d, at thread %@", i+30, [NSThread currentThread]);
-        }
-
-    }];
-    [block addExecutionBlock:^{
-        for (int i = 0; i < 9; i++) {
-            [array addObject:@(i+40)];
-            NSLog(@"NSBlockOperation %d, at thread %@", i+40, [NSThread currentThread]);
-        }
-
-    }];
-
-    [block setCompletionBlock:^{ //所有的block结束后执行 可能开启子线程
-        NSLog(@"NSBlockOperation complete at thread %@", [NSThread currentThread]);
-    }];
-
-
-    NSInvocationOperation * invocat = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(test) object:nil];
-    [invocat setCompletionBlock:^{
-        NSLog(@"NSInvocationOperation complete at thread %@", [NSThread currentThread]);
-
-    }];
-
-//    [invocat start];
-//    [operation start];
-
-    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
-//    [queue setMaxConcurrentOperationCount:2];
-//    [operation addDependency:invocat];
-//    [custom addDependency:block];
-//    [custom addDependency:invocat];
-    [queue addOperation:block];
-    [queue addOperation:invocat];
-    [queue addOperation:custom];
-    [block setQueuePriority:NSOperationQueuePriorityLow];
-    [invocat setQueuePriority:NSOperationQueuePriorityHigh];
-
-    [queue addOperationWithBlock:^{
-        for (int i = 0; i < 9; i++) {
-            [array addObject:@(i+50)];
-            NSLog(@"NSOperationQueue add block %d, at thread %@", i+50, [NSThread currentThread]);
-        }
-    }];
-
-    [queue addBarrierBlock:^{
-        NSLog(@"%ld, %@", array.count, array);
-    }];
+    
+    [person addObserver:self forKeyPath:@"scores" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [person addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+    [person changeScores:@[@1,@2]];
+    person.scores = @[@1,@2,@3];
+    
+    person.students = [NSMutableArray array];
+    Person * student1 = [[Person alloc] init];
+    [student1 changeAge:10];
+    Person * student2 = [[Person alloc] init];
+    [student2 changeAge:20];
+    person.students = [NSMutableArray arrayWithArray:@[student1, student2]];
+    
+    NSLog(@"max %@", [person.students valueForKeyPath:@"@max.age"]);
+    NSLog(@"sum %@", [person.students valueForKeyPath:@"@sum.age"]);
+//        [person changeName:@"GDD"];
+//        [person changeName:@"LEE"];
+//        [person changeName:@"HUUU"];
+//
+//    NSMutableArray * array = [NSMutableArray array];
+//
+//
+//    CustomOperation * custom = [[CustomOperation alloc] init];
+//
+////    [operation start];
+//
+//    NSBlockOperation * block = [[NSBlockOperation alloc] init];
+//
+//    [block addExecutionBlock:^{ //可能开启新线程
+//        for (int i = 0; i < 2; i++) {
+//            [array addObject:@(i+10)];
+//            NSLog(@"NSBlockOperation %d, at thread %@", i+10, [NSThread currentThread]);
+//        }
+//    }];
+//    [block addExecutionBlock:^{
+//        for (int i = 0; i < 9; i++) {
+//            [array addObject:@(i+20)];
+//            NSLog(@"NSBlockOperation %d, at thread %@", i+20, [NSThread currentThread]);
+//        }
+//
+//    }];
+//
+//
+//    [block addExecutionBlock:^{
+//        for (int i = 0; i < 9; i++) {
+//            [array addObject:@(i+30)];
+//            NSLog(@"NSBlockOperation %d, at thread %@", i+30, [NSThread currentThread]);
+//        }
+//
+//    }];
+//    [block addExecutionBlock:^{
+//        for (int i = 0; i < 9; i++) {
+//            [array addObject:@(i+40)];
+//            NSLog(@"NSBlockOperation %d, at thread %@", i+40, [NSThread currentThread]);
+//        }
+//
+//    }];
+//
+//    [block setCompletionBlock:^{ //所有的block结束后执行 可能开启子线程
+//        NSLog(@"NSBlockOperation complete at thread %@", [NSThread currentThread]);
+//    }];
+//
+//
+//    NSInvocationOperation * invocat = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(test) object:nil];
+//    [invocat setCompletionBlock:^{
+//        NSLog(@"NSInvocationOperation complete at thread %@", [NSThread currentThread]);
+//
+//    }];
+//
+////    [invocat start];
+////    [operation start];
+//
+//    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+////    [queue setMaxConcurrentOperationCount:2];
+////    [operation addDependency:invocat];
+////    [custom addDependency:block];
+////    [custom addDependency:invocat];
+//    [queue addOperation:block];
+//    [queue addOperation:invocat];
+//    [queue addOperation:custom];
+//    [block setQueuePriority:NSOperationQueuePriorityLow];
+//    [invocat setQueuePriority:NSOperationQueuePriorityHigh];
+//
+//    [queue addOperationWithBlock:^{
+//        for (int i = 0; i < 9; i++) {
+//            [array addObject:@(i+50)];
+//            NSLog(@"NSOperationQueue add block %d, at thread %@", i+50, [NSThread currentThread]);
+//        }
+//    }];
+//
+//    [queue addBarrierBlock:^{
+//        NSLog(@"%ld, %@", array.count, array);
+//    }];
 //    dispatch_queue_t queue = dispatch_queue_create("test", DISPATCH_QUEUE_CONCURRENT);
 //    dispatch_async(queue, ^{
 //        NSLog(@"dispatch_async thread %@", [NSThread currentThread]);
