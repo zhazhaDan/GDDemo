@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)changeAge:(NSInteger)age;
 - (void)changeName:(NSString *)name;
 - (void)setStudent:(Person *)p;
+
+- (void)setNick:(NSString *)nick;
+
+- (NSString *)nick;
 @end
 
 NS_ASSUME_NONNULL_END

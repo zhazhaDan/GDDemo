@@ -38,8 +38,11 @@
     
     [person addObserver:self forKeyPath:@"scores" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
     [person addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
-    [person changeScores:@[@1,@2]];
-    person.scores = @[@1,@2,@3];
+    [person addObserver:self forKeyPath:@"nick" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];
+//    person.nick = @"GDD";
+//    person.nick = @"LMN";
+//    [person changeScores:@[@1,@2]];
+//    person.scores = @[@1,@2,@3];
     
     person.students = [NSMutableArray array];
     Person * student1 = [[Person alloc] init];
@@ -47,12 +50,14 @@
     Person * student2 = [[Person alloc] init];
     [student2 changeAge:20];
     person.students = [NSMutableArray arrayWithArray:@[student1, student2]];
-    
+
     NSLog(@"max %@", [person.students valueForKeyPath:@"@max.age"]);
-    NSLog(@"sum %@", [person.students valueForKeyPath:@"@sum.age"]);
+    NSLog(@"sum %@", [person.students valueForKeyPath:@"@distinctUnionOfObjects.age"]);
+    NSLog(@"student %@", [person.students valueForKeyPath:@"students"]);
 //        [person changeName:@"GDD"];
 //        [person changeName:@"LEE"];
 //        [person changeName:@"HUUU"];
+    
 //
 //    NSMutableArray * array = [NSMutableArray array];
 //
