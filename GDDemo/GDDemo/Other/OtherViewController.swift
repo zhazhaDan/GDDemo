@@ -14,13 +14,21 @@ class OtherViewController: BaseViewController {
         super.viewDidLoad()
         self.view.addSubview(label)
         self.view.addSubview(textLabel)
+        self.view.addSubview(fpsLabel)
+        
         label.width = 300
         label.sizeToFit()
         label.center = self.view.center
+        
         textLabel.width = 300
         textLabel.sizeToFit()
         textLabel.center = self.view.center
         textLabel.top = label.bottom + 50
+        
+        
+        fpsLabel.size = CGSize.init(width: 100, height: 100)
+        fpsLabel.center = self.view.center
+        fpsLabel.top = textLabel.bottom + 50
     }
     @objc func test() {
 
@@ -40,8 +48,8 @@ class OtherViewController: BaseViewController {
 //        let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
 
 //        }
-        let vc = OCTestViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+//        let vc = OCTestViewController()
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     private lazy var label: ShineLabel = {
@@ -59,6 +67,12 @@ class OtherViewController: BaseViewController {
         let text = "you are so beatiful today, and i want to play boll with you, will you join us?"
         v.attributedText = NSAttributedString.init(string: text)
         v.numberOfLines = 0
+        return v
+    }()
+    
+    
+    private lazy var fpsLabel: FPSMonitorLabel = {
+        let v = FPSMonitorLabel()
         return v
     }()
 }
