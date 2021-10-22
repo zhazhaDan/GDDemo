@@ -10,7 +10,7 @@ import UIKit
 
 class AnimationListViewController: BaseViewController {
 
-    var datas:[String] = ["日历倒计时","UITableViewCell侧滑","collectionLayoutStyle1","collectionLayoutStyle2","collectionLayoutStyle3","其他"]
+    var datas:[String] = ["日历倒计时","UITableViewCell侧滑","collectionLayoutStyle1","collectionLayoutStyle2","collectionLayoutStyle3", "圆弧动画","其他"]
     override func viewDidLoad() {
         super.viewDidLoad()
         let tableview = UITableView.init(frame: self.view.bounds, style: UITableView.Style.plain)
@@ -46,6 +46,8 @@ extension AnimationListViewController:UITableViewDelegate,UITableViewDataSource 
             vc = CollectionLayoutStyle1VC(.circle)
         case 4:
             vc = CollectionLayoutStyle1VC(.pinch)
+        case 5:
+            vc = CircleVC()
         default:
             ""
         }

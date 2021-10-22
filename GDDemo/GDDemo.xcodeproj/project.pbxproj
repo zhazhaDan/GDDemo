@@ -87,6 +87,8 @@
 		A224EA1D26D4A65D0001DF20 /* NSObject+SafeKVO.m in Sources */ = {isa = PBXBuildFile; fileRef = A224EA1A26D4A65D0001DF20 /* NSObject+SafeKVO.m */; };
 		A224EA1F26D4A7720001DF20 /* GDSafeObserveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A224EA1E26D4A7720001DF20 /* GDSafeObserveModel.m */; };
 		A224EA2326D4E5100001DF20 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = A224EA2226D4E5100001DF20 /* Person.m */; };
+		A2284D9D2722ABC7007069FB /* CircleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2284D9C2722ABC7007069FB /* CircleVC.swift */; };
+		A2284D9F2722ABDE007069FB /* BezierCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2284D9E2722ABDE007069FB /* BezierCircleView.swift */; };
 		A2773A4A27159044003FF3A8 /* FPSMonitorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2773A4927159044003FF3A8 /* FPSMonitorLabel.swift */; };
 /* End PBXBuildFile section */
 
@@ -181,6 +183,8 @@
 		A224EA1E26D4A7720001DF20 /* GDSafeObserveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDSafeObserveModel.m; sourceTree = "<group>"; };
 		A224EA2126D4E5100001DF20 /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		A224EA2226D4E5100001DF20 /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		A2284D9C2722ABC7007069FB /* CircleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleVC.swift; sourceTree = "<group>"; };
+		A2284D9E2722ABDE007069FB /* BezierCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BezierCircleView.swift; sourceTree = "<group>"; };
 		A2773A4927159044003FF3A8 /* FPSMonitorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FPSMonitorLabel.swift; sourceTree = "<group>"; };
 		C3B8475EB09DF6E8F21E17B2 /* Pods_GDDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GDDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -200,6 +204,7 @@
 		3A2D64EE2292FF2900B1DAD5 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A2284D9A2722AAD5007069FB /* Circle */,
 				6ACE13D026959EC2003CDFB3 /* CollectionViewLayout */,
 				6AB74FF624B433C9001EABF3 /* TableViewCellSlider */,
 				3A2D64F12292FF8B00B1DAD5 /* DateCount */,
@@ -590,6 +595,23 @@
 			path = Demo;
 			sourceTree = "<group>";
 		};
+		A2284D9A2722AAD5007069FB /* Circle */ = {
+			isa = PBXGroup;
+			children = (
+				A2284D9B2722ABAB007069FB /* View */,
+				A2284D9C2722ABC7007069FB /* CircleVC.swift */,
+			);
+			path = Circle;
+			sourceTree = "<group>";
+		};
+		A2284D9B2722ABAB007069FB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A2284D9E2722ABDE007069FB /* BezierCircleView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		A2773A4827159019003FF3A8 /* FPSMonitorLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -773,6 +795,7 @@
 				6A1E854D24AEF03300C249C3 /* DownloaderViewController.swift in Sources */,
 				6ACC51E2223F4EBF00694E2F /* THChartHighLightView.swift in Sources */,
 				A224EA2326D4E5100001DF20 /* Person.m in Sources */,
+				A2284D9F2722ABDE007069FB /* BezierCircleView.swift in Sources */,
 				6A1E856024B0E35B00C249C3 /* FileDownloadManager.swift in Sources */,
 				6AAC70862578DC390036417C /* VideoVC.swift in Sources */,
 				6A25737F25492086007AFF7F /* LinkageContentProtocol.swift in Sources */,
@@ -794,6 +817,7 @@
 				6ACE13D526959F4D003CDFB3 /* CollectionViewLayoutStyle1.swift in Sources */,
 				6ACBD8C426BFC264002CF807 /* ShineLabel.swift in Sources */,
 				6A5281D9265E6AFF000E342E /* CustomPanViewController.swift in Sources */,
+				A2284D9D2722ABC7007069FB /* CircleVC.swift in Sources */,
 				3A2D64F02292FF6400B1DAD5 /* AnimationListViewController.swift in Sources */,
 				6AA5E33125497D9E001D4DB6 /* LinkageScrollView.swift in Sources */,
 				6AAC707A2577C8BE0036417C /* WebListVC.swift in Sources */,
