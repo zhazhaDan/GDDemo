@@ -15,6 +15,12 @@ class CircleVC: BaseViewController {
 
         let view = BezierCircleView(frame: CGRect.init(x: (self.view.width - 250)/2, y: 100, width: 250, height: 250))
         self.view.addSubview(view)
+        
+        
+        let view2 = BezierCircleStyle2View(frame: CGRect.init(x: (self.view.width - 250)/2, y: 400, width: 250, height: 250))
+        self.view.addSubview(view2)
+        
+        
 //        view.startTimer()
     }
     
