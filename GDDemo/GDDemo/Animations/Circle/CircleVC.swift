@@ -13,6 +13,8 @@ class CircleVC: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.view.backgroundColor = .gray
+        
         let view = BezierCircleView(frame: CGRect.init(x: (self.view.width - 250)/2, y: 100, width: 250, height: 250))
         self.view.addSubview(view)
         
@@ -20,7 +22,9 @@ class CircleVC: BaseViewController {
         let view2 = BezierCircleStyle2View(frame: CGRect.init(x: (self.view.width - 250)/2, y: 400, width: 250, height: 250))
         self.view.addSubview(view2)
         
-        
+        let view3 = BezierCircleStyle3View(frame: CGRect.init(x: (self.view.width - 250)/2, y: 500, width: 250, height: 250))
+        self.view.addSubview(view3)
+
 //        view.startTimer()
     }
     

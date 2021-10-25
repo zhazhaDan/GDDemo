@@ -39,7 +39,7 @@ extension BezierCircleStyle2View {
         baseLineLayer.frame = self.bounds
         baseLineLayer.strokeColor =  UIColor.hex(0xD8D8D8).cgColor
         baseLineLayer.fillColor = UIColor.clear.cgColor
-        baseLineLayer.lineWidth = 4
+        baseLineLayer.lineWidth = 2
         baseLineLayer.strokeStart = 0
         baseLineLayer.strokeEnd = 1
         baseLineLayer.lineCap = .round
@@ -54,7 +54,7 @@ extension BezierCircleStyle2View {
         colorLayer.frame = self.bounds
         colorLayer.strokeColor =  UIColor.hex(0xF9C784).cgColor
         colorLayer.fillColor = UIColor.clear.cgColor
-        colorLayer.lineWidth = 4
+        colorLayer.lineWidth = 2
         colorLayer.strokeStart = 0
         colorLayer.strokeEnd = 1
         colorLayer.lineCap = .round
@@ -171,12 +171,11 @@ extension BezierCircleStyle2View {
             animationFlagLayer.strokeStart = 0
             animationFlagLayer.strokeEnd = 1
             animationFlagLayer.fillColor = UIColor.hex(0xF9C784).cgColor
-            let point = CGPoint.init(x: 5, y: 12)
+            let point = CGPoint.init(x: 0, y: 5)
             path.move(to: CGPoint.init(x: point.x, y: point.y))
-            path.addLine(to: CGPoint.init(x: point.x - 5, y: point.y - 6))
-            path.addArc(withCenter: CGPoint.init(x: 5, y: point.y - 6), radius: 5, startAngle: Double.pi, endAngle: Double.pi * 2, clockwise: true)
-            path.addLine(to: CGPoint.init(x: point.x, y: point.y))
-            
+            path.addArc(withCenter: CGPoint.init(x: 5, y: point.y), radius: 5, startAngle: Double.pi, endAngle: Double.pi * 2, clockwise: true)
+            path.addQuadCurve(to: CGPoint.init(x: 5, y: 12), controlPoint: CGPoint.init(x: 10, y: point.y + 2))
+            path.addQuadCurve(to: CGPoint.init(x: point.x, y: point.y), controlPoint: CGPoint.init(x: point.x, y: point.y + 2))
             self.layer.addSublayer(animationFlagLayer)
         }
         animationFlagLayer.path = path.cgPath
@@ -198,18 +197,6 @@ extension BezierCircleStyle2View {
                 }
             }
         }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
     }
     
     private func changeAnimationLayer(point: CGPoint, at index: Int) {
